@@ -18,6 +18,7 @@ from django.urls import path
 import flash.views as f
 
 urlpatterns = [
+    path('', f.welcome, name = 'welcome'),
     path('<int:word_id>/', f.home_view),
     path('loading/', f.redirect_view, name = 'loading'),
     path('create-word/', f.create_word, name='create-word'),

@@ -5,7 +5,10 @@ from django.http import JsonResponse
 
 # Create your views here.
 
-def home_view(request, word_id, *args, **kwargs):
+def welcome(request, *args, **kwargs):
+     return render(request, 'base.html')
+
+def home_view(request, word_id=0, *args, **kwargs):
      if word_id == 0:
           context = {
                'word' : None
@@ -19,11 +22,12 @@ def home_view(request, word_id, *args, **kwargs):
      return render(request, 'home.html', context)
 
 def redirect_view(request,*args, **kwargs):
-     print('REQUEST',request.POST)
-     if request.method == 'POST':
+     print('REQUEST',request.GET)
+     if request.method == 'GET':
           try:
-               next = request.POST.get('next')
+               next = request.GET.get('next')
                print('NEXT: ', next)
+               next = next == 0 if next == '' else next
                existing_objs = Card.objects.filter( id__gt = int(next) )
                print('OBJECTS:', existing_objs)
 
