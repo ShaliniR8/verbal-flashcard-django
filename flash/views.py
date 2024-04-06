@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .form import CardForm, TagForm
+from .form import TopicForm, TagForm
 from .models import Topic, Tag
 from django.http import JsonResponse
 
@@ -61,15 +61,15 @@ def redirect_view(request,*args, **kwargs):
      return render(request, 'redirect.html', context)
 
 def create_topic(request, *args, **kwargs):
-     form = CardForm(request.POST or None)
+     form = TopicForm(request.POST or None)
+     print("REQUEST METHOD: ", request.method)
      print(form)
      if request.method == 'POST':
-          obj = form.save(commit = False)
-          obj.save()
+          obj = form.save()
           topic_id = obj.id
           return redirect(f'../{topic_id}')
 
-     form = CardForm()
+     form = TopicForm()
      context = {
           'form' : form
      }
