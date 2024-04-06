@@ -1,9 +1,9 @@
 from django import forms
-from .models import Card, Tag
+from .models import Topic, Tag
 
 class CardForm(forms.ModelForm):
      class Meta:
-          model = Card
+          model = Topic
           fields = ['word', 'meaning', 'example1', 'example2', 'example3']
 
 class TagForm(forms.ModelForm):

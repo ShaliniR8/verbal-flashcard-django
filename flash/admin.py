@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Card, Tag
+from .models import Topic, Tag
 # Register your models here.
-admin.site.register( Card )
+admin.site.register( Topic )
 admin.site.register( Tag )

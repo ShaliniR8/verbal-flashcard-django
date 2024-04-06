@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from .form import CardForm, TagForm
-from .models import Card, Tag
+from .models import Topic, Tag
 from django.http import JsonResponse
 
 # Create your views here.
 
 def welcome(request, *args, **kwargs):
      context = {
-          'exists': len(Card.objects.all()) != 0
+          'exists': len(Topic.objects.all()) != 0
      }    
      return render(request, 'base.html', context)
 
