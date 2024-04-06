@@ -4,7 +4,7 @@ from .models import Topic, Tag
 class CardForm(forms.ModelForm):
      class Meta:
           model = Topic
-          fields = ['topic', 'meaning', 'example1', 'example2', 'example3']
+          fields = ['topic', 'description']
 
 class TagForm(forms.ModelForm):
      class Meta:

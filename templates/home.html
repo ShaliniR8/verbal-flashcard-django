@@ -43,11 +43,11 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <h1 id = 'card-topic'> {{topic}} </h1>
-              <p id = 'card-examples' > {{example1}} </p>
-              <p id = 'card-examples' > {{example2}} </p>
+              <!-- <p id = 'card-examples' > {{example1}} </p>
+              <p id = 'card-examples' > {{example2}} </p> -->
             </div>
             <div class="flip-card-back">
-              <h1 id = 'card-meaning'> {{meaning}} </h1>
+              <h1 id = 'card-description'> {{description}} </h1>
               {% for item in tags %}
               <h4>
                 <span class="badge badge-light"> {{ item }} </span>
@@ -74,14 +74,14 @@
                 <input type="text" class="form-control" placeholder="Topic" name = 'topic'>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="meaning" name = 'meaning'>
+                <input type="text" class="form-control" placeholder="description" name = 'description'>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input type="text" class="form-control" name="example1" placeholder = 'Example'>
               </div>
               <div class="form-group">
                 <input type="text" class="form-control" name="example2" placeholder = 'Example'>
-              </div>
+              </div> -->
               <button type="submit" class="btn btn-primary"> Add </button>
             </form>
             </div>
