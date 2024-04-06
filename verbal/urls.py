@@ -19,9 +19,9 @@ import flash.views as f
 
 urlpatterns = [
     path('', f.welcome, name = 'welcome'),
-    path('<int:word_id>/', f.home_view),
+    path('<int:topic_id>/', f.home_view),
     path('loading/', f.redirect_view, name = 'loading'),
-    path('create-word/', f.create_word, name='create-word'),
+    path('create-topic/', f.create_topic, name='create-topic'),
     path('create-tag/', f.create_tag, name='create-tag'),
     path('admin/', admin.site.urls),
 ]

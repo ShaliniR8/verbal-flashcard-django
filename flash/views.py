@@ -11,15 +11,15 @@ def welcome(request, *args, **kwargs):
      }    
      return render(request, 'base.html', context)
 
-def home_view(request, word_id=1, *args, **kwargs):
-     if word_id == 0:
+def home_view(request, topic_id=1, *args, **kwargs):
+     if topic_id == 0:
           context = {
-               'word' : None
+               'topic' : None
           }
      else:
-          card = Card.objects.get(id = word_id)
+          card = Card.objects.get(id = topic_id)
           context =  card.serialize()
-          tagSet = Tag.objects.filter( word = card )
+          tagSet = Tag.objects.filter( topic = card )
           context['tags'] = list(set(q.tag for q in tagSet))
           
      return render(request, 'home.html', context)
@@ -60,31 +60,31 @@ def redirect_view(request,*args, **kwargs):
      context = {}
      return render(request, 'redirect.html', context)
 
-def create_word(request, *args, **kwargs):
+def create_topic(request, *args, **kwargs):
      form = CardForm(request.POST or None)
      print(form)
      if request.method == 'POST':
           obj = form.save(commit = False)
           obj.save()
-          word_id = obj.id
-          return redirect(f'../{word_id}')
+          topic_id = obj.id
+          return redirect(f'../{topic_id}')
 
      form = CardForm()
      context = {
           'form' : form
      }
-     return render(request, 'create_word.html', context)
+     return render(request, 'create_topic.html', context)
 
 def create_tag(request, *args, **kwargs):
      if request.method == 'POST':
-          requestWord = request.POST.get('id')
-          cards = Card.objects.filter(id=requestWord)
+          requestTopic = request.POST.get('id')
+          cards = Card.objects.filter(id=requestTopic)
           tag = request.POST.get('tag')
           instance = Tag.objects.create( tag = tag )
 
           for card in cards:
-               instance.word.add(card)
-          return redirect(f'../{requestWord}/')
+               instance.topic.add(card)
+          return redirect(f'../{requestTopic}/')
 
      form = TagForm()
      context = {
