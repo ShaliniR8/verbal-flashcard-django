@@ -6,9 +6,12 @@ from django.http import JsonResponse
 # Create your views here.
 
 def welcome(request, *args, **kwargs):
-     return render(request, 'base.html')
+     context = {
+          'exists': len(Card.objects.all()) != 0
+     }    
+     return render(request, 'base.html', context)
 
-def home_view(request, word_id=0, *args, **kwargs):
+def home_view(request, word_id=1, *args, **kwargs):
      if word_id == 0:
           context = {
                'word' : None

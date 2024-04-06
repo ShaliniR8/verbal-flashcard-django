@@ -15,7 +15,11 @@
   <body>
      <div class="container m-5">
           {% block content %}
-          <a href="/0" class="btn btn-primary btn-lg" role="button">Go To Cards</a>
+            {% if exists %}
+              <a href="/1" class="btn btn-primary btn-lg" role="button">Go To Cards</a>
+            {% else %}
+              <a href="/0" class="btn btn-primary btn-lg" role="button">Create your first vocab!</a>
+            {% endif %}
           {% endblock %}
      </div>
 
