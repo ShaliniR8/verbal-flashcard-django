@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-     modifyContent()      
+     modifyContent()   
+     $('.flip-card').on('click', function(){
+          if ($(this).hasClass('clicked')){
+               $(this).removeClass('clicked')
+          }else{
+               $(this).addClass('clicked')
+          }
+     })   
 });
 
 function modifyContent(){

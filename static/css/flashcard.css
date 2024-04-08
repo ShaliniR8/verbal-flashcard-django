@@ -53,7 +53,7 @@ padding-bottom: 5px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-.flip-card:hover .flip-card-inner {
+.flip-card.clicked .flip-card-inner {
   transform: rotateY(180deg);
 }
 
@@ -76,7 +76,7 @@ padding-bottom: 5px;
   transform: rotateY(180deg);
 }
 
-.container form {
+.container .submit-form {
   margin: 2rem auto;
   padding: 2rem;
   background-color: #f3fcfa; /* soft background color */
@@ -106,13 +106,4 @@ padding-bottom: 5px;
   height: 80px; /* Adjust height */
   margin: 0;
   background:rgba(69, 69, 69, 0.509)
-}
-
-.swal2-container .swal2-actions{
-  margin: 0;
-}
-
-.swal2-container .swal2-styled{
-  margin: 0;
-  padding: 0;
 }
