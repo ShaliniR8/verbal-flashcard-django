@@ -17,9 +17,9 @@ def home_view(request, topic_id=1, *args, **kwargs):
                'topic' : None
           }
      else:
-          card = Card.objects.get(id = topic_id)
-          context =  card.serialize()
-          tagSet = Tag.objects.filter( topic = card )
+          topic = Topic.objects.get(id = topic_id)
+          context =  topic.serialize()
+          tagSet = Tag.objects.filter( topic = topic )
           context['tags'] = list(set(q.tag for q in tagSet))
           
      return render(request, 'home.html', context)
@@ -31,7 +31,7 @@ def redirect_view(request,*args, **kwargs):
                next = request.GET.get('next')
                print('NEXT: ', next)
                next = next == 0 if next == '' else next
-               existing_objs = Card.objects.filter( id__gt = int(next) )
+               existing_objs = Topic.objects.filter( id__gt = int(next) )
                print('OBJECTS:', existing_objs)
 
                # hanling last page
@@ -78,13 +78,12 @@ def create_topic(request, *args, **kwargs):
 def create_tag(request, *args, **kwargs):
      if request.method == 'POST':
           requestTopic = request.POST.get('id')
-          cards = Card.objects.filter(id=requestTopic)
+          topic = Topic.objects.filter(id=requestTopic)
           tag = request.POST.get('tag')
           instance = Tag.objects.create( tag = tag )
-
-          for card in cards:
-               instance.topic.add(card)
-          return redirect(f'../{requestTopic}/')
+          if topic not in instance.topic:
+               instance.topic.add(topic) 
+          return {result: "success"}
 
      form = TagForm()
      context = {

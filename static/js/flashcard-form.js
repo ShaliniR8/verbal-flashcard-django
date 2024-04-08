@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+     modifyContent()      
+});
+
+function modifyContent(){
      document.querySelectorAll('input[type="text"], textarea').forEach((el) => el.classList.add('form-control'))
+     document.querySelectorAll('button[type="submit"').forEach((el) => el.classList.add('submit-btn'))
      document.querySelectorAll('input[type="text"], textarea').forEach(function(el){
           pTag = $(el).closest('p')
           pTagHTML = pTag.html()
@@ -15,5 +20,4 @@ document.addEventListener('DOMContentLoaded', function() {
                labelElement.html(`<b style="color:red"> ${labelText} *</b>`)
           }
      })
-
-});
+}

@@ -83,3 +83,36 @@ padding-bottom: 5px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* subtle shadow for depth */
 }
+
+.form-control{
+  padding:10px;
+  border: 0
+}
+
+.submit-btn {
+  background-color: #ffffff; /* primary button color */
+  color: rgb(0, 0, 0);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  border-left: ridge;
+}
+
+.my-swal {
+  font-size: 60%;
+  padding: 1px;
+  width: 150px; /* Adjust width */
+  height: 80px; /* Adjust height */
+  margin: 0;
+  background:rgba(69, 69, 69, 0.509)
+}
+
+.swal2-container .swal2-actions{
+  margin: 0;
+}
+
+.swal2-container .swal2-styled{
+  margin: 0;
+  padding: 0;
+}
