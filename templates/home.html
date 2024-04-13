@@ -3,9 +3,12 @@
 
 {% block content %}
 
+
 <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,20">
   Add new topic
 </button>
+<input type="hidden" name= 'id' value = {{id}} >
+
 <div class="row p-5">
   <div class="col">
     {% if id != 1 %}
@@ -22,6 +25,9 @@
     {% endif %}
   </div>
   <div class="col">
+    <h1 id = 'card-topic'> {{topic}} </h1>
+  </div>
+  <div class="col">
     <form method="get" action="{% url 'loading' %}">
       <button class="btn" name='next' value={{id}}></button>
         {% csrf_token %}
@@ -35,50 +41,8 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-12 col-md-9 pr-5 ">
-    <div class="flip-card rounded">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-            <h1 id = 'card-topic'> {{topic}} </h1>
-            <!-- <p id = 'card-examples' > {{example1}} </p>
-            <p id = 'card-examples' > {{example2}} </p> -->
-        </div>
-        <div class="flip-card-back">
-            <h1 id = 'card-description'> {{description}} </h1>
-          {% for item in tags %}
-            <h4>
-              <span class="badge badge-light"> {{ item }} </span>
-            </h4>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="col my-5 mx-auto">
-    <div class='container'>
-      <div class='row mt-5'>
-        <div class="dropdown">
-          <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,20">
-            Add tags
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-            <form class="px-4 py-3" method = 'post' action= {% url 'create-tag' %} >
-              {% csrf_token %}
-              <input type="hidden" name= 'id' value = {{id}} >
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Tag" name = 'tag'>
-              </div>
-              <button type="submit" class="btn btn-primary"> Add </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+<h1 class = "taggable" id = 'card-description'> {{description}} </h1>
+<div id="all-tags" style="display:none">{{tags}}</div>
 {% endblock %}
 
 {% block javascript %}

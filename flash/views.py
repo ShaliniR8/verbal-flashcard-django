@@ -21,11 +21,9 @@ def home_view(request, topic_id=1, *args, **kwargs):
           context =  topic.serialize()
           tagSet = Tag.objects.filter( topic = topic )
           context['tags'] = list(set(q.tag for q in tagSet))
-          
      return render(request, 'home.html', context)
 
 def redirect_view(request,*args, **kwargs):
-     print('REQUEST',request.GET)
      if request.method == 'GET':
           try:
                next = request.GET.get('next')
@@ -62,8 +60,6 @@ def redirect_view(request,*args, **kwargs):
 
 def create_topic(request, *args, **kwargs):
      form = TopicForm(request.POST or None)
-     print("REQUEST METHOD: ", request.method)
-     print(form)
      if request.method == 'POST':
           obj = form.save()
           topic_id = obj.id
@@ -78,12 +74,20 @@ def create_topic(request, *args, **kwargs):
 def create_tag(request, *args, **kwargs):
      if request.method == 'POST':
           requestTopic = request.POST.get('id')
-          topic = Topic.objects.filter(id=requestTopic)
-          tag = request.POST.get('tag')
-          instance = Tag.objects.create( tag = tag )
-          if topic not in instance.topic:
-               instance.topic.add(topic) 
-          return {result: "success"}
+          tag_text = request.POST.get('tag')
+    
+          if not requestTopic or not tag_text:
+               return JsonResponse({'result': "Missing Data"})
+          try:
+               topic = Topic.objects.get(id=requestTopic)
+          except Topic.DoesNotExist:
+               topic = None
+          tag_instance = Tag.objects.create(tag=tag_text)
+          
+          if topic is not None:
+               tag_instance.topic.add(topic)
+
+          return JsonResponse({'result': "success"})
 
      form = TagForm()
      context = {

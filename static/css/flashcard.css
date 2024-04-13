@@ -9,15 +9,16 @@ padding-bottom: 5px;
 }
 
 #card-description{
-    text-align: center;
+    text-align: left;
     margin-top: 50px;
     margin-bottom: 1rem;
-    background-color: rgb(209, 233, 248);
+    background-color: rgb(241, 216, 234);
     padding-left: 5px;
     padding-right: 5px;
     margin-left: 10px;
     margin-right: 10px;
-    border-radius: 10px;;
+    border-radius: 10px;
+    font-size: 25px;
 }
 
 
@@ -106,4 +107,12 @@ padding-bottom: 5px;
   height: 80px; /* Adjust height */
   margin: 0;
   background:rgba(69, 69, 69, 0.509)
+}
+
+i.tag {
+  background-color: #ffbf0057;
+}
+
+i.tag:hover{
+  background-color: #ffffff57;
 }
