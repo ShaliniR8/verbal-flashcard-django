@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
      updateTags();
-     
+     var selectedText;
+
      document.querySelector('.taggable').addEventListener('mouseup', function() {
           setTimeout(function() {
-              const selectedText = window.getSelection().toString();
+              selectedText = window.getSelection().toString();
               if (selectedText.length > 0) {
                    Swal.fire({
                         position: "bottom",
@@ -27,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         'X-CSRFToken': csrftoken
                                     },
                                    success: function(response){
-                                        console.log(response)
                                         updateTag(selectedText)
                                    },
                                    error: function(response){
@@ -39,24 +39,50 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     const swalContainer = Swal.getContainer();
                     swalContainer.classList.remove('swal2-backdrop-show')
-                  console.log(`User has highlighted: ${selectedText}`);
               }
           }, 10);
-      });
-      
-     $('#toggleTags').on('click', function() {
-          var list = document.getElementById('tagsContainer');
-          if ($('#tagsContainer').css('display', 'none') ){
-               $('#tagsContainer').css('display', '')
-          } else {
-               $('#tagsContainer').css('display', 'none')
-          }
-      });
+     });
+
+     $('.taggable').on('click', '.tag', function(){
+          tag = $(this).text()
+          btn_group = $('.tag-button-grp')
+          pos = $(this).position()
+          btn_group.css('display', '')
+          new_pos = {'top': pos['top'] - 50, 'left': pos['left']}
+          btn_group.css(new_pos)
+          $('body').on('click', function(e){
+              if (!$(e.target).closest('.tag').length){
+                    btn_group.css('display', 'none')
+              }
+          })
+          $('.remove-tag').on('click', function(){
+               var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+               var id = $('input[name="id"]').val();
+               console.log(tag)
+               $.ajax({
+                    url: removeTagUrl,
+                    method: 'POST',
+                    data: { 
+                         id: id,
+                         tag: tag,
+                    },
+                    headers: {
+                         'X-CSRFToken': csrftoken
+                         },
+                    success: function(response){
+                         removeTag(tag)
+                    },
+                    error: function(response){
+                         console.log(response)
+                    }
+               })
+               
+          })
+     })
 });
 
 function updateTags(){
      tags = $('#all-tags').text().replace(/'/g, '"')
-     console.log(tags)
      tags = JSON.parse(tags)
      tags.forEach((tag) => updateTag(tag))
 }
@@ -64,7 +90,21 @@ function updateTags(){
 function updateTag(tag){
      document.querySelectorAll('.taggable').forEach(function(el){
           text = $(el).html()
-          text = text.replace(tag, `<i class='tag'>${tag}</i>`)
+          text = text.replace(tag, `<span style=""><i class='tag'>${tag}</i></span>`)
+          $(el).html(text)
+     })
+}
+
+function removeTag(tag){
+     document.querySelectorAll('.taggable').forEach(function(el){
+          Array.from($(el).find('span')).forEach(function(span_tag){
+               text = $(el).html()
+               i_tag = $(span_tag).find('.tag')
+               if (i_tag.text().trim() == tag.trim()){
+                    span_html = span_tag.outerHTML
+                    text = text.replace(span_html, tag)
+               }
+          })
           $(el).html(text)
      })
 }

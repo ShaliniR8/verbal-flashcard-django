@@ -6,6 +6,7 @@ body {
 #card-topic{
   padding-top: 5px;
 padding-bottom: 5px;
+  text-align: center;
 }
 
 #card-description{
@@ -13,10 +14,7 @@ padding-bottom: 5px;
     margin-top: 50px;
     margin-bottom: 1rem;
     background-color: rgb(241, 216, 234);
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
+    padding: 15px;
     border-radius: 10px;
     font-size: 25px;
 }
@@ -111,8 +109,22 @@ padding-bottom: 5px;
 
 i.tag {
   background-color: #ffbf0057;
+  position: relative;
 }
 
 i.tag:hover{
   background-color: #ffffff57;
+}
+
+i.tag:active{
+  background-color: hsla(0, 71%, 86%, 0.341);
+}
+
+.tag-button-grp {
+  position: absolute;
+  opacity: 0.8;
+}
+
+.pull-right {
+  float: right;
 }

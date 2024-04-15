@@ -69,28 +69,45 @@ def create_topic(request, *args, **kwargs):
      context = {
           'form' : form
      }
-     return render(request, 'create_topic.html', context)
+     return render(request, 'topic_form.html', context)
+
+def edit_topic(request, *args, **kwargs):
+     a = 1
 
 def create_tag(request, *args, **kwargs):
      if request.method == 'POST':
-          requestTopic = request.POST.get('id')
+          topic_id = request.POST.get('id')
           tag_text = request.POST.get('tag')
-    
-          if not requestTopic or not tag_text:
-               return JsonResponse({'result': "Missing Data"})
-          try:
-               topic = Topic.objects.get(id=requestTopic)
-          except Topic.DoesNotExist:
-               topic = None
-          tag_instance = Tag.objects.create(tag=tag_text)
-          
-          if topic is not None:
+
+          tag_instance, created = Tag.objects.get_or_create(tag=tag_text)
+          topic = Topic.objects.get(id=topic_id)
+
+          # Check if the topic is already associated with the tag
+          if not tag_instance.topic.filter(id=topic.id).exists():
                tag_instance.topic.add(topic)
 
-          return JsonResponse({'result': "success"})
+          return JsonResponse({'result': "Success"})
 
      form = TagForm()
      context = {
           'form' : form
      }
      return render(request, 'create_tag.html', context)
+
+def remove_tag(request, *args, **kwargs):
+     print(request)
+     if request.method == 'POST':
+          topic_id = request.POST.get('id')
+          tag_text_to_remove = request.POST.get('tag')
+
+          if not topic_id or not tag_text_to_remove:
+               return JsonResponse({'result': "Missing Data"})
+          try:
+               topic = Topic.objects.get(id=topic_id)
+          except Topic.DoesNotExist:
+               topic = None
+          tag_instance = Tag.objects.get(tag=tag_text_to_remove)
+          
+          if topic is not None:
+               tag_instance.topic.remove(topic)
+     return JsonResponse({'result': "Success"})
