@@ -29,7 +29,7 @@
     <h1 class="editable" id = 'card-topic'> 
       <span> {{topic}} </span> 
       <div>
-        <button class="btn btn-outline-danger bi-trash3-fill delete-topic"></button>
+        <button class="btn btn-outline-danger bi-trash3-fill delete-topic" title="Delete this Topic"></button>
         <button class="btn btn-outline-success bi-pencil-fill edit" data-toggle="modal" data-target="#editTopic"></button>
       </div>
     </h1>
@@ -51,8 +51,7 @@
 <div class = "taggable editable" id = 'card-description'> 
   <span> {{description}}  </span>
   <div class="pull-right">
-    <button class="btn btn-outline-warning bi-trash3-fill remove-description"></button>
-    <button class="btn btn-outline-success bi-pencil-fill edit" data-toggle="modal" data-target="#editTopic"></button>
+    <button class="btn btn-outline-success bi-pencil-fill edit" title="Edit Description" data-toggle="modal" data-target="#editTopic" ></button>
   </div>
 </div>
 <div id="all-tags" style="display:none">{{tags}}</div>
