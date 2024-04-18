@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,  get_object_or_404
 from .form import TopicForm, TagForm
 from .models import Topic, Tag
 from django.http import JsonResponse
@@ -27,7 +27,6 @@ def redirect_view(request,*args, **kwargs):
      if request.method == 'GET':
           try:
                next = request.GET.get('next')
-               print('NEXT: ', next)
                next = next == 0 if next == '' else next
                existing_objs = Topic.objects.filter( id__gt = int(next) )
                print('OBJECTS:', existing_objs)
@@ -46,7 +45,7 @@ def redirect_view(request,*args, **kwargs):
 
           #handle prev pages
           except:
-               prev = request.POST.get('prev')
+               prev = request.GET.get('prev')
                if prev!='':
                     prev = str(int(prev) - 1)
 
@@ -69,10 +68,18 @@ def create_topic(request, *args, **kwargs):
      context = {
           'form' : form
      }
-     return render(request, 'topic_form.html', context)
+     return render(request, 'create_topic.html', context)
 
 def edit_topic(request, *args, **kwargs):
-     a = 1
+     topic_id = request.POST.get('id')
+     request_form = request.POST
+     topic = Topic.objects.get(id = topic_id)
+     form = TopicForm(request_form, instance = topic)
+     if form.is_valid():
+          form.save()
+          return JsonResponse({'message': 'Success!', 'tag': 'success'})
+     else:
+          return JsonResponse({'message': 'Failed to edit that.', 'tag': 'warning'})
 
 def create_tag(request, *args, **kwargs):
      if request.method == 'POST':
