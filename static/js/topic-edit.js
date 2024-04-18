@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     $('#editTopic').modal('toggle')
                     response = response.responseJSON
-                    if (response['message'])
+                    if (response)
                     {
                          var messageHtml = `
                          <div class="alert alert-${response['tag']} mt-5">
@@ -37,6 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
                          $('#message-container').append(messageHtml);
                     }
                     
+               }
+          })
+     })
+
+     $('.delete-topic').on('click', function(e){
+          var id = $('input[name="id"]').val()
+          var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+          $.ajax({
+               url: deleteTopicUrl,
+               type: 'POST',
+               data:  {
+                    id: id
+               },
+               headers: {
+                    'X-CSRFToken': csrfToken
+               },
+               success: function(response){
+                    window.location.href = document.querySelector("#welcome").href
                }
           })
      })

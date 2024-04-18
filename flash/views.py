@@ -12,16 +12,14 @@ def welcome(request, *args, **kwargs):
      return render(request, 'base.html', context)
 
 def home_view(request, topic_id=1, *args, **kwargs):
-     if topic_id == 0:
-          context = {
-               'topic' : None
-          }
-     else:
+     try:
           topic = Topic.objects.get(id = topic_id)
           context =  topic.serialize()
           tagSet = Tag.objects.filter( topic = topic )
           context['tags'] = list(set(q.tag for q in tagSet))
-     return render(request, 'home.html', context)
+          return render(request, 'home.html', context)
+     except:
+          return redirect('welcome')
 
 def redirect_view(request,*args, **kwargs):
      if request.method == 'GET':
@@ -80,6 +78,13 @@ def edit_topic(request, *args, **kwargs):
           return JsonResponse({'message': 'Success!', 'tag': 'success'})
      else:
           return JsonResponse({'message': 'Failed to edit that.', 'tag': 'warning'})
+
+def delete_topic(request):
+     topic_id = request.POST.get('id')
+     Topic.objects.get(id = topic_id).delete()
+     return JsonResponse({'message': 'go back!'})
+      
+     
 
 def create_tag(request, *args, **kwargs):
      if request.method == 'POST':

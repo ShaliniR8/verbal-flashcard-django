@@ -7,6 +7,7 @@
 <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0,20">
   Add new topic
 </button>
+<a href="/1" id="welcome" style="display:none" role="button">Go Back</a>
 <input type="hidden" name= 'id' value = {{id}} >
 
 <div class="row p-5">
@@ -28,7 +29,7 @@
     <h1 class="editable" id = 'card-topic'> 
       <span> {{topic}} </span> 
       <div>
-        <button class="btn btn-outline-warning bi-trash3-fill delete-topic"></button>
+        <button class="btn btn-outline-danger bi-trash3-fill delete-topic"></button>
         <button class="btn btn-outline-success bi-pencil-fill edit" data-toggle="modal" data-target="#editTopic"></button>
       </div>
     </h1>
