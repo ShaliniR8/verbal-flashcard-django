@@ -43,9 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
      $('.delete-use-case').on('click', function(){
           var id = $('input[name="id"]').val()
-          var use_case = $(this).closest('li')
+          var use_case = $(this).closest('.use_case')
           var use_case_id = use_case.attr('id')
-          console.log(use_case_id)
           var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
           $.ajax({
                url: deleteUseCaseUrl,

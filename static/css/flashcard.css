@@ -94,14 +94,14 @@ i.tag:active{
   text-align: left;
   margin-bottom: 1rem;
   background-color: rgb(241, 241, 248);
-  padding: 5px;
+  padding: 1px;
   border-radius: 0px;
-  display: grid;
+ 
 }
 
-.all_use_cases li{
+.all_use_cases .use_case{
   background-color: rgb(223, 223, 249);
   margin: 10px;
   border-radius: .25rem;
-  padding: 5px 5px 20px 5px;
+  padding: 5px;
 }
