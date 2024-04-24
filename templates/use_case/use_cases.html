@@ -1,0 +1,20 @@
+{% load static %}
+
+<h3>Use Cases:</h3>
+<div class="all_use_cases">
+     <ul>
+         {% for use_case in use_cases %}
+         <li class="taggable" id="{{use_case.id}}"> {{ use_case.description }} 
+          <div class="pull-right">
+               <button class="btn btn-outline-warning bi-trash3-fill delete-use-case" title="Delete this Use Case"></button>
+               <button class="btn btn-outline-success bi-pencil-fill edit" title="Edit this Use Case" data-toggle="modal" data-target="#editTopic"></button>
+          </div>
+         </li>
+         {%endfor%}
+     </ul>
+ </div>
+
+ 
+{% block javascript %}
+<script src="{% static 'js/use-case.js' %}"></script>
+{% endblock %}

@@ -19,12 +19,15 @@ import flash.views as f
 
 urlpatterns = [
     path('', f.welcome, name = 'welcome'),
-    path('<int:topic_id>/', f.home_view),
+    path('<int:topic_id>/', f.home_view, name = 'topic-page'),
     path('loading/', f.redirect_view, name = 'loading'),
     path('create-topic/', f.create_topic, name='create-topic'),
     path('edit-topic', f.edit_topic, name='edit-topic'),
     path('delete-topic/', f.delete_topic, name='delete-topic'),
     path('create-tag/', f.create_tag, name='create-tag'),
     path('remove-tag/', f.remove_tag, name='remove-tag'),
+    path('topic/<int:topic_id>/add_use_case/', f.add_use_case, name='add_use_case'),
+    path('delete-use-case/', f.delete_use_case, name='delete-use-case'),
+    
     path('admin/', admin.site.urls),
 ]

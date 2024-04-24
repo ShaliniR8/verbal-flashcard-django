@@ -30,7 +30,7 @@
       <span> {{topic}} </span> 
       <div>
         <button class="btn btn-outline-danger bi-trash3-fill delete-topic" title="Delete this Topic"></button>
-        <button class="btn btn-outline-success bi-pencil-fill edit" data-toggle="modal" data-target="#editTopic"></button>
+        <button class="btn btn-outline-success bi-pencil-fill edit" title="Edit Title" data-toggle="modal" data-target="#editTopic"></button>
       </div>
     </h1>
   </div>
@@ -48,15 +48,12 @@
   </div>
 </div>
 
+<!-- Description -->
 <div class = "taggable editable" id = 'card-description'> 
   <span> {{description}}  </span>
   <div class="pull-right">
     <button class="btn btn-outline-success bi-pencil-fill edit" title="Edit Description" data-toggle="modal" data-target="#editTopic" ></button>
   </div>
-</div>
-<div id="all-tags" style="display:none">{{tags}}</div>
-<div class="btn-group tag-button-grp" style="display:none">
-  <button type = "button" class="btn btn-danger remove-tag" > x </button>
 </div>
 
 <!-- Modal -->
@@ -87,7 +84,18 @@
   </div>
 </div>
 
+<!-- Use Case -->
+{% if use_cases is not None%}
+  {% include 'use_case/use_cases.html'  %}
+{% endif %}
+<a href="{% url 'add_use_case' topic_id=id %}" class="pull-right">Add Use Case</a>
 
+
+<!-- tags -->
+<div id="all-tags" style="display:none">{{tags}}</div>
+<div class="btn-group tag-button-grp" style="display:none">
+  <button type = "button" class="btn btn-danger remove-tag" > x </button>
+</div>
 {% endblock %}
 
 {% block javascript %}

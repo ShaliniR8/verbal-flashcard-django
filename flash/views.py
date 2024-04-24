@@ -1,24 +1,36 @@
 from django.shortcuts import render, redirect,  get_object_or_404
-from .form import TopicForm, TagForm
-from .models import Topic, Tag
+from .form import TopicForm, TagForm, UseCaseForm
+from .models import Topic, Tag, UseCase
 from django.http import JsonResponse
 
 # Create your views here.
 
 def welcome(request, *args, **kwargs):
-     context = {
-          'exists': len(Topic.objects.all()) != 0
-     }    
+     if len(Topic.objects.all()) != 0:
+          context = {
+               'topic_id': Topic.objects.first().id
+          }    
+     else:
+          context = {
+               'topic_id': None
+          }  
      return render(request, 'base.html', context)
 
-def home_view(request, topic_id=1, *args, **kwargs):
-     try:
+# ------------------------------------------------------------------------------------------
+# TOPIC
+# ------------------------------------------------------------------------------------------
+
+def home_view(request, topic_id, *args, **kwargs):
+     try: 
           topic = Topic.objects.get(id = topic_id)
           context =  topic.serialize()
           tagSet = Tag.objects.filter( topic = topic )
+          useCaseSet = topic.use_cases.all()
           context['tags'] = list(set(q.tag for q in tagSet))
+          context['use_cases'] = useCaseSet if useCaseSet.exists() else None
           return render(request, 'home.html', context)
-     except:
+     except Exception as e:
+          print(e)
           return redirect('welcome')
 
 def redirect_view(request,*args, **kwargs):
@@ -122,4 +134,31 @@ def remove_tag(request, *args, **kwargs):
           
           if topic is not None:
                tag_instance.topic.remove(topic)
+     return JsonResponse({'result': "Success"})
+
+# ------------------------------------------------------------------------------------------
+# USE CASE
+# ------------------------------------------------------------------------------------------
+
+def add_use_case(request, topic_id):
+     topic = get_object_or_404(Topic, id=topic_id)
+     if request.method == 'POST':
+          form = UseCaseForm(request.POST)
+          use_case = form.save(commit=False)
+          use_case.topic = topic
+          use_case.save()
+          return redirect('topic-page', topic_id=topic_id)
+     else:
+          form = UseCaseForm()
+          return render(request, 'use_case/add_use_case.html', {'form': form, 'topic': topic})
+
+def delete_use_case(request, *args, **kwargs):
+     if request.method == 'POST':
+          topic_id = request.POST.get('id')
+          use_case_id_to_remove = request.POST.get('use_case_id')
+
+          if not topic_id or not use_case_id_to_remove:
+               return JsonResponse({'result': "Missing Data"})
+
+          UseCase.objects.get(id=use_case_id_to_remove).delete()
      return JsonResponse({'result': "Success"})

@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
      updateTags();
      var selectedText;
 
-     document.querySelector('.taggable').addEventListener('mouseup', function() {
+     $('.taggable').on('mouseup', function() {
           setTimeout(function() {
-              selectedText = window.getSelection().toString();
+              selectedText = window.getSelection().toString().trim();
               if (selectedText.length > 0) {
                    Swal.fire({
                         position: "bottom",
@@ -90,21 +90,21 @@ function updateTags(){
 function updateTag(tag){
      document.querySelectorAll('.taggable').forEach(function(el){
           text = $(el).html()
-          text = text.replace(tag, `<span style=""><i class='tag'>${tag}</i></span>`)
+          text = text.replaceAll(tag, `<span style=""><i class='tag'>${tag}</i></span>`)
           $(el).html(text)
      })
 }
 
 function removeTag(tag){
      document.querySelectorAll('.taggable').forEach(function(el){
-          Array.from($(el).find('span')).forEach(function(span_tag){
-               text = $(el).html()
-               i_tag = $(span_tag).find('.tag')
-               if (i_tag.text().trim() == tag.trim()){
-                    span_html = span_tag.outerHTML
-                    text = text.replace(span_html, tag)
+          text = $(el).html()
+          Array.from($(el).find('.tag')).forEach(function(i_tag){
+               span_tag =  $(i_tag).closest('span')
+               if ( ($(i_tag).text().trim() == tag.trim()) && span_tag){
+                    span_html = span_tag.html()
+                    text = text.replaceAll(span_html, tag)
+                    $(el).html(text)
                }
           })
-          $(el).html(text)
      })
 }
