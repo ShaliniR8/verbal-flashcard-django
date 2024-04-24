@@ -4,21 +4,41 @@
 <div class="all_use_cases">
 
          {% for use_case in use_cases %}
-         <div class="use_case" id="{{use_case.id}}"> 
+         <div class="use_case" id="use_case_{{use_case.id}}"> 
             <div class="row">
-                <div class="col taggable">
-                    {{ use_case.description }} 
-                </div>
+                <div class="col taggable editable">{{ use_case.description }}</div>
                 <div class="col-1">
                     <button class="btn btn-outline-warning bi-trash3-fill delete-use-case" title="Delete this Use Case"></button>
-                    <button class="btn btn-outline-success bi-pencil-fill edit mt-1" title="Edit this Use Case" data-toggle="modal" data-target="#editTopic"></button>
+                    <button class="btn btn-outline-success bi-pencil-fill edit-use-case mt-1" title="Edit this Use Case" data-toggle="modal" data-target="#editUseCase"></button>
                 </div>
             </div>
         </div>
          {%endfor%}
 
  </div>
-
+<!-- Modal -->
+<div class="modal fade" id="editUseCase" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+          <div class="modal-body">
+                <form method="post" id="use-case-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="id"/>
+                    <div class="form-group" name="use-case-description" >
+                        <label for="id_description"><b> Description: </b></label>
+                        <textarea name="description" id="id_description" cols="40" rows="10" maxlength="400" class="form-control"></textarea>
+                    </div>
+                    <button class="btn btn-info mt-3 use-case-edit-submit">Save changes</button>
+                </form>
+          </div>
+      </div>
+    </div>
+  </div>
  
 {% block javascript %}
 <script src="{% static 'js/use-case.js' %}"></script>

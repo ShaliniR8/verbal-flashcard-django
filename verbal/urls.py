@@ -27,6 +27,7 @@ urlpatterns = [
     path('create-tag/', f.create_tag, name='create-tag'),
     path('remove-tag/', f.remove_tag, name='remove-tag'),
     path('topic/<int:topic_id>/add_use_case/', f.add_use_case, name='add_use_case'),
+    path('edit-use-case/', f.edit_use_case, name='edit-use-case'),
     path('delete-use-case/', f.delete_use_case, name='delete-use-case'),
     
     path('admin/', admin.site.urls),

@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
      $('.taggable').on('click', '.tag', function(){
           tag = $(this).text()
           btn_group = $('.tag-button-grp')
-          pos = $(this).position()
+          pos = $(this).offset()
           btn_group.css('display', '')
           new_pos = {'top': pos['top'] - 50, 'left': pos['left']}
           btn_group.css(new_pos)

@@ -152,6 +152,15 @@ def add_use_case(request, topic_id):
           form = UseCaseForm()
           return render(request, 'use_case/add_use_case.html', {'form': form, 'topic': topic})
 
+def edit_use_case(request, *args, **kwargs):
+     use_case_id = request.POST.get('id')
+     request_form = request.POST
+     use_case = UseCase.objects.get(id = use_case_id)
+     form = UseCaseForm(request_form, instance = use_case)
+     if form.is_valid():
+          form.save()
+     return JsonResponse({'result': request.method})
+
 def delete_use_case(request, *args, **kwargs):
      if request.method == 'POST':
           topic_id = request.POST.get('id')
@@ -159,6 +168,5 @@ def delete_use_case(request, *args, **kwargs):
 
           if not topic_id or not use_case_id_to_remove:
                return JsonResponse({'result': "Missing Data"})
-
           UseCase.objects.get(id=use_case_id_to_remove).delete()
-     return JsonResponse({'result': "Success"})
+     return JsonResponse({'result': request.method})

@@ -1,50 +1,36 @@
 document.addEventListener('DOMContentLoaded', function() {
      // let target;
      // let formGroup;
-     // $('.edit').on('click', function(){
-     //      target = $(this).closest('.editable').prop('id')
-     //      formGroup = $(`.form-group[name="${target}"]`)
-     //      formGroupInputElement = document.getElementById(formGroup.find('label').prop('for'))
-     //      formGroup.css('display', '')
-     // })
+     $('.edit-use-case').on('click', function(){
+          target = $(this).closest('.use_case').find('.editable')
+          $('#editUseCase #id_description').val(target.text())
+          $('#use-case-form input[name="id"]').val($(this).closest('.use_case').attr('id').replace('use_case_', ''))
+     
+     })
 
-     // $('.topic-edit-submit').on('click', function(e){
-     //      e.preventDefault()
-     //      var id = $('input[name="id"]').val()
-     //      var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
-     //      $.ajax({
-     //           url: editTopicUrl,
-     //           type: 'POST',
-     //           data:  $('#topic-form').serialize(),
-     //           headers: {
-     //                'X-CSRFToken': csrfToken
-     //           },
-     //           complete: function(response){
-     //                $(`#${target} span`).text($(formGroupInputElement).val())
+     $('.use-case-edit-submit').on('click', function(e){
+          e.preventDefault()
+          var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+          $.ajax({
+               url: editUseCaseUrl,
+               type: 'POST',
+               data:  $('#use-case-form').serialize(),
+               headers: {
+                    'X-CSRFToken': csrfToken
+               },
+               complete: function(response){
+                    use_case_id= 'use_case_' + $('#use-case-form input[name="id"]').val()
+                    $(`#${use_case_id} .editable`).text($('#editUseCase #id_description').val())
                     
-     //                $('#editTopic').modal('toggle')
-     //                response = response.responseJSON
-     //                if (response)
-     //                {
-     //                     var messageHtml = `
-     //                     <div class="alert alert-${response['tag']} mt-5">
-     //                          ${response['message']}
-     //                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-     //                          <span aria-hidden="true">&times;</span>
-     //                          </button>
-     //                     </div>  `;
-                         
-     //                     $('#message-container').append(messageHtml);
-     //                }
-                    
-     //           }
-     //      })
-     // })
+                    $('#editUseCase').modal('toggle')
+               }
+          })
+     })
 
      $('.delete-use-case').on('click', function(){
           var id = $('input[name="id"]').val()
           var use_case = $(this).closest('.use_case')
-          var use_case_id = use_case.attr('id')
+          var use_case_id = use_case.attr('id').replace('use_case_', '')
           var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
           $.ajax({
                url: deleteUseCaseUrl,
