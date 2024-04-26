@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
      // let formGroup;
      $('.edit-use-case').on('click', function(){
           target = $(this).closest('.use_case').find('.editable')
-          $('#editUseCase #id_description').val(target.text())
+          form_text = target.html().replaceAll('<br>', '\n')
+          $('#editUseCase #id_description').val(form_text)
           $('#use-case-form input[name="id"]').val($(this).closest('.use_case').attr('id').replace('use_case_', ''))
      
      })
@@ -19,12 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     'X-CSRFToken': csrfToken
                },
                complete: function(response){
-                    use_case_id= 'use_case_' + $('#use-case-form input[name="id"]').val()
-                    $(`#${use_case_id} .editable`).text($('#editUseCase #id_description').val())
-                    
-                    $('#editUseCase').modal('toggle')
+                    setTimeout(function() {
+                         location.reload();
+                     }, 1000);
                }
           })
+          location.reload()
+
      })
 
      $('.delete-use-case').on('click', function(){

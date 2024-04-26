@@ -22,6 +22,7 @@ urlpatterns = [
     path('<int:topic_id>/', f.home_view, name = 'topic-page'),
     path('loading/', f.redirect_view, name = 'loading'),
     path('create-topic/', f.create_topic, name='create-topic'),
+    path('create-topic/<str:tag>/', f.create_topic, name='create-topic-for-tag'),
     path('edit-topic', f.edit_topic, name='edit-topic'),
     path('delete-topic/', f.delete_topic, name='delete-topic'),
     path('create-tag/', f.create_tag, name='create-tag'),

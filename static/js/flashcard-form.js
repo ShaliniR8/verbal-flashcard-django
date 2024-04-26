@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-     modifyContent()     
+     modifyContent()
+     fillTopic()    
 });
 
 function modifyContent(){
@@ -20,4 +21,8 @@ function modifyContent(){
                labelElement.html(`<b style="color:red"> ${labelText} *</b>`)
           }
      })
+}
+
+function fillTopic(){
+     $('#id_topic').val($('#topic').val())
 }

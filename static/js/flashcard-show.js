@@ -78,6 +78,8 @@ document.addEventListener('DOMContentLoaded', function() {
                })
                
           })
+
+          $('.tag-to-topic').attr('href', `../create-topic/${tag}`)
      })
 });
 

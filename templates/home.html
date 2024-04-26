@@ -90,11 +90,16 @@
 {% endif %}
 <a href="{% url 'add_use_case' topic_id=id %}" class="pull-right">Add Use Case</a>
 
+<!-- Comparisons -->
+
 
 <!-- tags -->
 <div id="all-tags" style="display:none">{{tags}}</div>
-<div class="btn-group tag-button-grp" style="display:none">
-  <button type = "button" class="btn btn-danger remove-tag" > x </button>
+<div class="tag-button-grp" style="display:none">
+  <div style="background-color:white;padding:5px;border-radius:0.75rem">
+    <a class="btn btn-info bi-arrow-up-right tag-to-topic" title="Create Topic from Tag"></a>
+    <button type = "button" class="btn btn-danger bi-x-square remove-tag" title="Delete Tag"></button>
+  </div>
 </div>
 {% endblock %}
 

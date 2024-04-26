@@ -68,16 +68,21 @@ def redirect_view(request,*args, **kwargs):
      return render(request, 'redirect.html', context)
 
 def create_topic(request, *args, **kwargs):
-     form = TopicForm(request.POST or None)
      if request.method == 'POST':
+          form = TopicForm(request.POST or None)
           obj = form.save()
           topic_id = obj.id
-          return redirect(f'../{topic_id}')
+          return redirect('topic-page', topic_id=topic_id)
 
-     form = TopicForm()
-     context = {
-          'form' : form
-     }
+     context = {'topic' : ""}
+     if 'tag' in kwargs:
+          topic = Topic.objects.filter(topic=kwargs['tag'])
+          if topic.exists():
+               return redirect('topic-page', topic_id=topic.first().id)
+          else:
+               context['topic'] = kwargs['tag']
+
+     context['form'] = TopicForm()
      return render(request, 'create_topic.html', context)
 
 def edit_topic(request, *args, **kwargs):
