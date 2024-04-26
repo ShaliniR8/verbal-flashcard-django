@@ -27,6 +27,7 @@ def home_view(request, topic_id, *args, **kwargs):
           tagSet = Tag.objects.filter( topic = topic )
           useCaseSet = topic.use_cases.all()
           context['tags'] = list(set(q.tag for q in tagSet))
+          context['is_topic'] = ["true" if Topic.objects.filter(topic = tag).exists() else "false" for tag in context['tags'] ]
           context['use_cases'] = useCaseSet if useCaseSet.exists() else None
           return render(request, 'home.html', context)
      except Exception as e:

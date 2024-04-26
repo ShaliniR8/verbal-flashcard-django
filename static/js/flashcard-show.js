@@ -85,14 +85,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateTags(){
      tags = $('#all-tags').text().replace(/'/g, '"')
+     is_topic = $('#is-topic').text().replace(/'/g, '"')
+     is_topic = JSON.parse(is_topic)
      tags = JSON.parse(tags)
-     tags.forEach((tag) => updateTag(tag))
+     tags.forEach((tag, idx) => updateTag(tag, is_topic[idx]))
 }
 
-function updateTag(tag){
+function updateTag(tag, value){
+     style = "background-color: #ffbf0057"
+     if (value === 'true'){
+          style = "background-color: magenta"
+     }
      document.querySelectorAll('.taggable').forEach(function(el){
           text = $(el).html()
-          text = text.replaceAll(tag, `<span style=""><i class='tag'>${tag}</i></span>`)
+          text = text.replaceAll(tag, `<span style="${style}"><i class='tag'>${tag}</i></span>`)
           $(el).html(text)
      })
 }
@@ -103,7 +109,7 @@ function removeTag(tag){
           Array.from($(el).find('.tag')).forEach(function(i_tag){
                span_tag =  $(i_tag).closest('span')
                if ( ($(i_tag).text().trim() == tag.trim()) && span_tag){
-                    span_html = span_tag.html()
+                    span_html = span_tag[0].outerHTML
                     text = text.replaceAll(span_html, tag)
                     $(el).html(text)
                }
