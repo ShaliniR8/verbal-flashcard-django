@@ -221,7 +221,7 @@ def comparison_datatable(request, comparison_id):
      length = int(request.GET.get('length', 10))  # Page size
      search_value = request.GET.get('search[value]', '')
      comparison = get_object_or_404(Comparison, id = comparison_id)
-     # Querying data with basic filtering
+
      queryset = comparison.comparison_rows.all()
      if search_value:
           queryset = comparison.comparison_rows.filter(Q(row1__icontains=search_value) | Q(row2__icontains=search_value))
@@ -245,3 +245,11 @@ def comparison_datatable(request, comparison_id):
      }
 
      return JsonResponse(response)
+
+def delete_comparison(request):
+     id = request.POST.get('id')
+     comparison = Comparison.objects.get(id = id)
+     if comparison is not None:
+          comparison.delete()
+
+     return JsonResponse({'result': 'deleted'})

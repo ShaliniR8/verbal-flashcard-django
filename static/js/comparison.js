@@ -36,10 +36,29 @@ document.addEventListener('DOMContentLoaded', function() {
       })
      
     $('.dt-length').each(function(){
-        $(this).hide()
+        html = `<button type="button" class="btn btn-warning bi-trash3-fill delete-comparison" title="Delete this Comparison Table"></button>`
+        html += `<button type="button" class="btn btn-success bi-pencil-fill edit-comparison ml-1" title="Edit this Comparison Table"></button>`
+        
+        $(this).closest('.col-md-auto').html(html)
     })
 
     $('.dt-paging').each(function(){
         $(this).closest('.row').hide()
+    })
+
+    $('.delete-comparison').on('click', function(){
+        id = $(this).closest('.table-responsive').find('#cmp-id').val()
+        var csrftoken = $(".all_comparisons input[name=csrfmiddlewaretoken]").val();
+        $.ajax({
+            url: '/delete-comp/',
+            type: 'POST',
+            data: {
+                id: id
+            },
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+        })
+        $(this).closest('.table-responsive').remove()
     })
 })
