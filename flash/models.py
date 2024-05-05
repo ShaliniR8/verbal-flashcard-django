@@ -16,9 +16,10 @@ class UseCase(models.Model):
     description = models.TextField()
 
 class Comparison(models.Model):
-    topic1 = models.ForeignKey(Topic, related_name='comparison_as_topic1', on_delete=models.CASCADE)
-    topic2 = models.ForeignKey(Topic, related_name='comparison_as_topic2', on_delete=models.CASCADE)
-
+    topic = models.ForeignKey(Topic, related_name='comparisons', on_delete=models.CASCADE)
+    comparison1 = models.CharField(max_length=255, null=True, blank=True)
+    comparison2 = models.CharField(max_length=255, null=True, blank=True)
+    
 class ComparisonRow(models.Model):
     comparison = models.ForeignKey(Comparison, related_name='comparison_rows', on_delete=models.CASCADE)
     keyword = models.CharField(max_length=200)

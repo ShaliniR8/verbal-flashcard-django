@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect,  get_object_or_404
-from .form import TopicForm, TagForm, UseCaseForm
-from .models import Topic, Tag, UseCase
+from django.db.models import Q
+from .form import TopicForm, TagForm, UseCaseForm, ComparisonForm, ComparisonRowForm
+from .serializers import ComparisonRowSerializer
+from django.forms import inlineformset_factory
+from .models import Topic, Tag, UseCase, Comparison, ComparisonRow
 from django.http import JsonResponse
 
 # Create your views here.
@@ -26,9 +29,11 @@ def home_view(request, topic_id, *args, **kwargs):
           context =  topic.serialize()
           tagSet = Tag.objects.filter( topic = topic )
           useCaseSet = topic.use_cases.all()
+          compairsonSet = topic.comparisons.all()
           context['tags'] = list(set(q.tag for q in tagSet))
           context['is_topic'] = ["true" if Topic.objects.filter(topic = tag).exists() else "false" for tag in context['tags'] ]
           context['use_cases'] = useCaseSet if useCaseSet.exists() else None
+          context['comparisons'] = compairsonSet if compairsonSet.exists() else None
           return render(request, 'home.html', context)
      except Exception as e:
           print(e)
@@ -176,3 +181,67 @@ def delete_use_case(request, *args, **kwargs):
                return JsonResponse({'result': "Missing Data"})
           UseCase.objects.get(id=use_case_id_to_remove).delete()
      return JsonResponse({'result': request.method})
+
+# ------------------------------------------------------------------------------------------
+# COMPARISON
+# ------------------------------------------------------------------------------------------
+
+ComparisonRowFormSet = inlineformset_factory(
+    Comparison,
+    ComparisonRow,
+    fields=('row1', 'row2'),
+    can_delete=True  # Allow the deletion of form instances
+)
+
+def add_comparison(request, topic_id):
+     if request.method == 'POST':
+          breakpoint()
+          topic = get_object_or_404(Topic, id = topic_id)
+          form = ComparisonForm(request.POST)
+          parent = form.save(commit=False)
+          parent.topic = topic 
+          parent.save()
+          child_formset = ComparisonRowFormSet(request.POST, instance=parent)
+          if child_formset.is_valid():
+               child_formset.save()
+          return redirect('topic-page', topic_id=topic_id)
+     else:
+          form = Comparison()
+          child_formset = ComparisonRowFormSet(instance=Comparison())
+          options = list(topic.topic for topic in Topic.objects.all()) + list(tag.tag for tag in Tag.objects.all())
+          return render(request, 'comparisons/add_comparison.html', {
+          'form': form,
+          'child_formset': child_formset,
+          'options': options})
+
+def comparison_datatable(request, comparison_id):
+     # Extracting DataTable request parameters
+     draw = int(request.GET.get('draw', 1))  # Unique ID for each request
+     start = int(request.GET.get('start', 0))
+     length = int(request.GET.get('length', 10))  # Page size
+     search_value = request.GET.get('search[value]', '')
+     comparison = get_object_or_404(Comparison, id = comparison_id)
+     # Querying data with basic filtering
+     queryset = comparison.comparison_rows.all()
+     if search_value:
+          queryset = comparison.comparison_rows.filter(Q(row1__icontains=search_value) | Q(row2__icontains=search_value))
+
+     # Total record count before filtering
+     total = queryset.count()
+
+     # Sorting and pagination
+     queryset = queryset[start:start + length]
+
+     # Serialization
+     serializer = ComparisonRowSerializer(queryset,  many=True)
+     data = serializer.data
+
+     # Preparing the response
+     response = {
+          "draw": draw,
+          "recordsTotal": total,
+          "recordsFiltered": total,
+          "data": data
+     }
+
+     return JsonResponse(response)

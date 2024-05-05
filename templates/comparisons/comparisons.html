@@ -1,0 +1,24 @@
+{% load static %}
+
+<div class="all_comparisons">
+     {% for comparison in comparisons %}
+          <div class="col-1">
+               <button class="btn btn-warning bi-trash3-fill delete-comparison" id="delete_comp_{{comparison.id}}" title="Delete this Comparison Table"></button>
+               <button class="btn btn-success bi-pencil-fill edit-comparison mt-1" id="edit_comp_{{comparison.id}}" title="Edit this Comparison Table" data-toggle="modal" data-target="#editUseCase"></button>
+          </div>
+          <table class="comp table table-dark table-striped m5" data-url="{% url 'comparisons-data' comparison_id=comparison.id %}"> 
+               <thead>
+                    <tr>
+                         <th>{{comparison.comparison1}}</th>
+                         <th>{{comparison.comparison2}}</th>
+                    </tr>
+               </thead>
+               <tbody></tbody>
+          </table>
+          <hr>
+     {%endfor%}
+ </div>
+
+{% block javascript %}
+<script src="{% static 'js/comparison.js' %}"></script>
+{% endblock %}

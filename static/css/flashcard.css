@@ -17,6 +17,7 @@ padding-bottom: 5px;
     padding: 15px;
     border-radius: 10px;
     font-size: 25px;
+    display: flow-root;
 }
 
 
@@ -93,7 +94,6 @@ i.tag:active{
   background-color: rgb(241, 241, 248);
   padding: 1px;
   border-radius: 0px;
- 
 }
 
 .all_use_cases .use_case{
@@ -101,4 +101,11 @@ i.tag:active{
   margin: 10px;
   border-radius: .25rem;
   padding: 5px;
+}
+
+/* Comparisons */
+.all_comparisons{
+  background-color: rgb(216, 216, 216);
+  padding: 10px;
+  border-radius: 0.75rem;
 }

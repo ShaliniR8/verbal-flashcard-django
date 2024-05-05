@@ -1,5 +1,5 @@
 from django import forms
-from .models import Topic, Tag, UseCase
+from .models import Topic, Tag, UseCase, Comparison, ComparisonRow
 
 class TopicForm(forms.ModelForm):
      class Meta:
@@ -15,3 +15,13 @@ class UseCaseForm(forms.ModelForm):
     class Meta:
         model = UseCase
         fields = ['description']
+
+class ComparisonForm(forms.ModelForm):
+    class Meta:
+        model = Comparison
+        fields = ['comparison1', 'comparison2']
+
+class ComparisonRowForm(forms.ModelForm):
+    class Meta:
+        model = ComparisonRow
+        fields = ['row1', 'row2']

@@ -89,8 +89,12 @@
   {% include 'use_case/use_cases.html'  %}
 {% endif %}
 <a href="{% url 'add_use_case' topic_id=id %}" class="pull-right">Add Use Case</a>
-
+<br>
 <!-- Comparisons -->
+{% if comparisons is not None%}
+  {% include 'comparisons/comparisons.html'  %}
+{% endif %}
+<a href="{% url 'add_comparison' topic_id=id %}" class="pull-right">Add a Comparison</a>
 
 
 <!-- tags -->
