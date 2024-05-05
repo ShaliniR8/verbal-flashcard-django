@@ -8,34 +8,23 @@
           <table class="table table-dark table-striped">
                <thead>
                     <tr>
-                         <th><input class="form-control" list="datalistOptions" required id="id_comparison1" name="comparison1" placeholder="Heading 1"/></th>
-                         <th><input class="form-control" list="datalistOptions" required id="id_comparison2" name="comparison2" placeholder="Heading 2"/></th>
+                         <th>{{comparison.comparison1}}</th>
+                         <th>{{comparison.comparison1}}</th>
                          <th style="width:10%">Exclude Row</th>
                     </tr>
                </thead>
                <tbody>   
                     
                </tbody>
-        </table>
-                      
-        
-
-      
-        
-        <p>
-          
-          
-        </p>
-                   
+          </table>
+          {% for form in child_formset %}
+               <div class="temp_comp_row" display="style:hidden">
+                    {{ form.as_p }}
+               </div>
+          {% endfor %}
         <button type="submit" class="btn btn-success">Add</button>
         {{ child_formset.management_form }}
      </form>
-
-     <datalist id="datalistOptions">
-          {% for option in options %}
-               <option value="{{option}}">
-          {% endfor %}
-     </datalist>
 </div>
 {% endblock %}
 

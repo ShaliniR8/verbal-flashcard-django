@@ -195,7 +195,6 @@ ComparisonRowFormSet = inlineformset_factory(
 
 def add_comparison(request, topic_id):
      if request.method == 'POST':
-          breakpoint()
           topic = get_object_or_404(Topic, id = topic_id)
           form = ComparisonForm(request.POST)
           parent = form.save(commit=False)
@@ -245,6 +244,22 @@ def comparison_datatable(request, comparison_id):
      }
 
      return JsonResponse(response)
+
+
+def edit_comparison(request, comparison_id):
+     comparison = Comparison.objects.get(id=comparison_id)
+     if request.method == 'POST':
+          topic = comparison.topic
+          child_formset = ComparisonRowFormSet(request.POST, instance=comparison)
+          if child_formset.is_valid():
+               child_formset.save()
+          return redirect('topic-page', topic_id=topic.id)
+     else:
+          form = ComparisonForm(instance=comparison)
+          child_formset = ComparisonRowFormSet(instance=comparison)
+          return render(request, 'comparisons/edit_comparison.html', {
+          'comparison' : comparison,
+          'child_formset': child_formset})
 
 def delete_comparison(request):
      id = request.POST.get('id')

@@ -32,6 +32,7 @@ urlpatterns = [
     path('delete-use-case/', f.delete_use_case, name='delete-use-case'),
     path('topic/<int:topic_id>/add_comparison/', f.add_comparison, name='add_comparison'),
     path('comparison/<int:comparison_id>/comparison-rows/', f.comparison_datatable, name='comparisons-data'),
+    path('comparison/<int:comparison_id>/edit-comparison/', f.edit_comparison, name='edit-comparison'),
     path('delete-comp/', f.delete_comparison, name='delete-comparison'),
     path('admin/', admin.site.urls),
 ]

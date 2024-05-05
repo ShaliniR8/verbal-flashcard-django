@@ -5,6 +5,7 @@
      {% for comparison in comparisons %}
           <div class="table-responsive">
                <input type="hidden" id="cmp-id" value="{{comparison.id}}"/>
+               <input type="hidden" id="cmp-url" value="{% url 'edit-comparison' comparison_id=comparison.id %}"/>
                <table class="comp table table-dark table-striped m5" data-url="{% url 'comparisons-data' comparison_id=comparison.id %}"> 
                     <thead>
                          <tr>

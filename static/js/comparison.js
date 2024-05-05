@@ -36,8 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
       })
      
     $('.dt-length').each(function(){
+        link = $(this).closest('.table-responsive').find('#cmp-url').val()
         html = `<button type="button" class="btn btn-warning bi-trash3-fill delete-comparison" title="Delete this Comparison Table"></button>`
-        html += `<button type="button" class="btn btn-success bi-pencil-fill edit-comparison ml-1" title="Edit this Comparison Table"></button>`
+        html += `<a href='${link}' class="btn btn-success bi-pencil-fill edit-comparison ml-1" title="Edit this Comparison Table"></a>`
         
         $(this).closest('.col-md-auto').html(html)
     })
@@ -60,5 +61,37 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         })
         $(this).closest('.table-responsive').remove()
+    })
+
+    $('.temp_comp_row').each(function(){
+        textareas = $(this).find('textarea')
+        ck = $(this).find('input[type="checkbox"]')[0]
+        ck.classList.add('form-control')
+        row1 = textareas[0]
+        row1.removeAttribute('rows')
+        row1.removeAttribute('cols')
+        row1.classList.add('form-control')
+        row2 = textareas[1]
+        row2.classList.add('form-control')
+        row2.removeAttribute('rows')
+        row2.removeAttribute('cols')
+
+        $(this).find('label').each(function(){ $(this).remove()})
+
+        tr = document.createElement('tr')
+        td1 = document.createElement('td')
+        td2 = document.createElement('td')
+        td3 = document.createElement('td')
+        td1.append(row1)
+        td2.append(row2)
+        td3.append(ck)
+        tr.append(td1)
+        tr.append(td2)
+        tr.append(td3)
+        $('tbody').append(tr)
+
+        $(this).find('input[type="hidden"]').each(function(){
+            $('form').append(this)
+        })
     })
 })
