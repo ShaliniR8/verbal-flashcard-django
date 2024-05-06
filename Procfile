@@ -1,1 +1,1 @@
-web: gunicorn flash.wsgi:application --log-file -
+web: gunicorn verbal.wsgi:application --log-file -
