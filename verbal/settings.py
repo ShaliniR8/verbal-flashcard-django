@@ -27,6 +27,25 @@ DEBUG = True if os.environ.get('DEBUG') is not None else os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'logs\production.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
 
 # Application definition
 
